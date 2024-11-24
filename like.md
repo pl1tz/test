@@ -1,4 +1,4 @@
-explain analyze SELECT * FROM books WHERE title LIKE '%Potter%';
+```explain analyze SELECT * FROM books WHERE title LIKE '%Potter%';```
 
 no index
 
@@ -12,7 +12,7 @@ no index
 "Execution Time: 399.907 ms"
 
 Btree
-CREATE INDEX idx_books_title ON books USING BTREE (title);
+```CREATE INDEX idx_books_title ON books USING BTREE (title);```
 
 "Gather  (cost=1000.00..26142.67 rows=200 width=30) (actual time=88.866..91.882 rows=0 loops=1)"
 "  Workers Planned: 2"
@@ -24,7 +24,7 @@ CREATE INDEX idx_books_title ON books USING BTREE (title);
 "Execution Time: 91.920 ms"
 
 GiST
-CREATE INDEX idx_books_title_gist ON books USING GiST (title gist_trgm_ops);
+```CREATE INDEX idx_books_title_gist ON books USING GiST (title gist_trgm_ops);```
 
 "Bitmap Heap Scan on books  (cost=13.96..743.02 rows=200 width=30) (actual time=72.766..72.766 rows=0 loops=1)"
 "  Recheck Cond: ((title)::text ~~ '%Potter%'::text)"
@@ -34,7 +34,7 @@ CREATE INDEX idx_books_title_gist ON books USING GiST (title gist_trgm_ops);
 "Execution Time: 72.804 ms"
 
 GIN
-CREATE INDEX idx_books_title_trgm_gin ON books USING gin (title gin_trgm_ops);
+```CREATE INDEX idx_books_title_trgm_gin ON books USING gin (title gin_trgm_ops);```
 
 "Bitmap Heap Scan on books  (cost=118.28..847.33 rows=200 width=30) (actual time=0.033..0.034 rows=0 loops=1)"
 "  Recheck Cond: ((title)::text ~~ '%Potter%'::text)"
@@ -44,7 +44,7 @@ CREATE INDEX idx_books_title_trgm_gin ON books USING gin (title gin_trgm_ops);
 "Execution Time: 0.069 ms"
 
 
-explain analyze SELECT * FROM books WHERE title ~ 'Potter';
+```explain analyze SELECT * FROM books WHERE title ~ 'Potter';```
 
 GIN
 "Bitmap Heap Scan on books  (cost=118.28..847.33 rows=200 width=30) (actual time=0.072..0.072 rows=0 loops=1)"
@@ -54,7 +54,7 @@ GIN
 "Planning Time: 0.229 ms"
 "Execution Time: 0.091 ms"
 
-explain analyze SELECT * FROM books WHERE LOWER(title) = 'harry potter';
+```explain analyze SELECT * FROM books WHERE LOWER(title) = 'harry potter';```
 
 GIN
 CREATE INDEX idx_books_title_trgm ON books USING GIN (LOWER(title) gin_trgm_ops);
@@ -76,7 +76,7 @@ no index
 "Planning Time: 0.115 ms"
 "Execution Time: 392.841 ms"
 
-explain analyze SELECT * FROM books WHERE LOWER(title) = 'harry potter' or LOWER(title) = 'harry potter1';
+```explain analyze SELECT * FROM books WHERE LOWER(title) = 'harry potter' or LOWER(title) = 'harry potter1';```
 
 gin
 "Bitmap Heap Scan on books  (cost=893.03..16778.78 rows=19950 width=30) (actual time=0.048..0.049 rows=0 loops=1)"
@@ -89,7 +89,7 @@ gin
 "Planning Time: 0.203 ms"
 "Execution Time: 0.073 ms"
 
-explain analyze SELECT * FROM books WHERE title = 'Potter';
+```explain analyze SELECT * FROM books WHERE title = 'Potter';```
 
 hash index
 "Index Scan using idx_hash_string on books  (cost=0.00..8.02 rows=1 width=30) (actual time=0.018..0.018 rows=0 loops=1)"
