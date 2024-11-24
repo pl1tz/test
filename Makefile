@@ -25,11 +25,11 @@ create-db:
 
 # Define the target to run schema
 create-schema:
-	$(DOCKER_COMPOSE) exec postgres psql -U postgres -d postgres -f ./schema.sql
+	$(DOCKER_COMPOSE) exec postgres psql -U postgres -d postgres -f /schema.sql
 
 # Define the target to run seeds
 seeds:
-	$(DOCKER_COMPOSE) exec postgres psql -U postgres -d postgres -f ./seeds.sql
+	$(DOCKER_COMPOSE) exec postgres psql -U postgres -d postgres -f /seeds.sql
 
 # Define the target up
 up:
